@@ -13,4 +13,31 @@
   color: #333333;
 }
 
+.opportunityWrapper {
+  display: flex;
+  width: 80%;
+}
+
+.general-info {
+  width: calc(100% - 435px);
+  height: auto;
+}
+
+.general-nav-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc;
+}
+
+.general-nav-item {
+  cursor: pointer;
+  padding: 15px 0;
+}
+
+.general-nav-item.active {
+  border-bottom: 2px solid #037ef3;
+  color: #037ef3;
+}
 
