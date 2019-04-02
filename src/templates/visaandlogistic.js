@@ -1,9 +1,11 @@
 import React from 'react';
+import { Heading } from './styled'
+import { wording } from './fixture'
 
 class Visaandlogistic extends React.PureComponent {
     render() {
         return (
-            <div></div>
+            <Heading text={wording.logisticsText} size={"20px"}/>
         )
     }
 }
