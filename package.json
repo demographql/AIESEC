@@ -6,11 +6,13 @@
     "apollo-boost": "^0.3.1",
     "graphql": "^14.2.1",
     "graphql-tag": "^2.10.1",
+    "isarray": "^2.0.4",
     "mobx": "^5.9.4",
     "mobx-react": "^5.4.3",
     "react": "^16.8.6",
     "react-apollo": "^2.5.3",
     "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "^2.1.8",
     "styled-components": "^4.2.0"
   },

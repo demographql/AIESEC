@@ -1,42 +1,32 @@
 import React from 'react';
-import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-// import { Table } from 'reactstrap';
+import { opportunityState } from './state'
+import Opportunity from './pages/Opportunity'
+import { GET_OPPORTUNITY } from './getOpportunity.graphql'
 
-export const GET_POSTS = gql`
-  query GetPosts {
-    posts {
-      id
-      author
-      body
-    }
-  }
-`;
+const RenderContext = React.createContext({})
+
+const { Provider, Consumer } = RenderContext
 
 function test(data) {
-    console.log('text', data)
+  opportunityState.opportunityDetails = data
+  opportunityState.backgroundList = data.Opportunity.backgrounds
+}
+class PostViewer extends React.PureComponent {
+  static contextType = RenderContext
+  render() {
+      return (
+        <Query query={GET_OPPORTUNITY}>
+          {({ loading, data }) => !loading && (
+          <Provider value={data}>
+            {test(data)}
+            <Opportunity />
+          </Provider>
+          )}
+        </Query>
+      )
+  }
 }
 
-export default () => (
-  <Query query={GET_POSTS}>
-  {({ loading, data }) => !loading && (
-    <React.Fragment>
-      <thead>
-        <tr>
-          <th>Author</th>
-          <th>Body</th>
-        </tr>
-      </thead>
-      <tbody>
-        {test(data)}
-        {data && data.posts.map(post => (
-          <tr key={post.id}>
-            <td>{post.author}</td>
-            <td>{post.body}</td>
-          </tr>
-        ))}
-      </tbody>
-    </React.Fragment>
-  )}
-  </Query>
-);
+export default PostViewer
+export { RenderContext, PostViewer }
