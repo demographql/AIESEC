@@ -11,6 +11,7 @@ const { Provider, Consumer } = RenderContext
 function test(data) {
   opportunityState.opportunityDetails = data
   opportunityState.backgroundList = data.Opportunity.backgrounds
+  opportunityState.skillsList = data.Opportunity.skills
 }
 class PostViewer extends React.PureComponent {
   static contextType = RenderContext

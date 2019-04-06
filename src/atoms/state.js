@@ -6,6 +6,10 @@ class State {
 
     currentlySelected = ''
 
+    selectedValue = {
+        backgrounds: [],
+        skills: []
+    }
     handleOnClick = (data) => {
         if(!this.currentlySelected !== data) {
             this.currentlySelected = data
@@ -17,6 +21,7 @@ decorate(State,{
     isActive: observable ,
     currentlySelected: observable,
     handleOnClick: action,
+    selectedValue: observable
 })
 
 const textState = new State()

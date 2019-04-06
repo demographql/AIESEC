@@ -1,4 +1,6 @@
 import styled, { css } from 'styled-components'
+import { Form } from 'react-advanced-form'
+import { Input } from 'react-advanced-form-addons'
 
 const HeadingContainer = styled.div`
   ${props => (props.heading === 'sideheading' || props.heading === 'pointheading')&& css`
@@ -130,20 +132,52 @@ const BorderConatiner = styled.div`
 `
 const LoginButton = styled.button`
 `
-const StyledForm = styled.form`
+const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  label {
+    width: 100%;
+    flex-direction: row;
+    display: flex;
+    padding: 25px 0;
+  }
 `
-const StyledInput = styled.input`
+const StyledInput = styled(Input)`
   border-right-width: 0;
   border-top-width: 0;
   border-left-width: 0;
   border-color: #a0a0a0;
+  flex: 0 0 70%;
   :focus {
     outline: none;
-    border-color: blue;
+    border-color: #037ef3;
   }
+`
+const InputTitle = styled.div`
+  flex: 0 0 30%;
+  display: flex;
+`
+const StyledSpan = styled.span`
+  flex: 0 0 100%;
+  display: flex;
+  ${StyledInput} {
+    flex: 0 0 100%;
+  }
+`
+const IconButton = styled.div`
+  display: flex;
+  padding-left: 10px;
+`
+const InputListWrap = styled.div`
+  flex-basis: 100%;
+  span:first-child {
+    padding: 0;
+  }
+  span {
+    padding: 25px 0 0 0;
+  }
+}
 `
 
 export {
@@ -159,5 +193,9 @@ export {
   BorderConatiner,
   LoginButton,
   StyledForm,
-  StyledInput
+  StyledInput,
+  InputTitle,
+  StyledSpan,
+  InputListWrap,
+  IconButton
 }

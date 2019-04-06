@@ -46,8 +46,7 @@ function renderWorkingHours(workingTime) {
 function convertTime (time) {
     time = time.toString ().match (/^([1-9]|1[012])$/) || [time];
   
-    if (time.length >= 1) { 
-        console.log('time', time)
+    if (time.length >= 1) {
         time = time.slice (1);  
         time[5] = +time[0] < 12 ? ' AM' : ' PM'; 
         time[0] = +time[0] % 12 || 12; 

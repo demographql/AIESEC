@@ -8,11 +8,18 @@ class State {
             name:''
         }
     ]
+    skillsList = [
+        {
+            id:'',
+            name:''
+        }
+    ]
 }
 
 decorate(State,{
     opportunityDetails: observable,
-    backgroundList: observable
+    backgroundList: observable,
+    skillsList:  observable
 })
 
 const opportunityState = new State()

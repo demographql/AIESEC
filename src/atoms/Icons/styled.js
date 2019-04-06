@@ -1,8 +1,18 @@
-import styled from 'styled-components'
+import styled, {css} from 'styled-components'
 
 const StyledSvg = styled.svg`
     width:12px;
     padding-bottom: 2px;
+    ${props => props.cancel && css`
+        width: 20px;
+        height: 20px;
+    `};
+`
+const StyledPlus = styled(StyledSvg)`
+    width: 20px;
+    path {
+        fill: #037ef3;
+    }
 `
 const StyledSuccessCircle = styled.circle`
     fill:#25AE88;
@@ -24,4 +34,5 @@ export {
     StyledSuccessCircle,
     StyledFailureCircle,
     StyledPolyline,
+    StyledPlus,
 }
