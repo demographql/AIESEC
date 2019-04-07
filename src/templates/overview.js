@@ -1,5 +1,5 @@
 import React from 'react';
-import { RenderContext } from '../PostViewer'
+import { RenderContext } from '../pages/Opportunity'
 import {
     renderHeadingWithContent
 } from './deps'

@@ -1,19 +1,44 @@
 import React from 'react';
-import { Link } from "react-router-dom"
-import {observer} from 'mobx-react'
-import GeneralInfo from './GeneralInfo'
-import Volunteer from './Volunteer'
+import { Query } from 'react-apollo';
+import { opportunityState } from '../../state'
+import OpportunityPage from './Opportunity'
+import { GET_OPPORTUNITY } from '../../queries/Opportunity.graphql'
 
-class Opportunity extends React.Component {
-    render() {
-        return (
-            <div className={"opportunityWrapper"}>
-                <Link to="/edit-opportunity">Edit Opportunity</Link>
-                <GeneralInfo />
-                <Volunteer />
-            </div>
-        )
-    }
+const RenderContext = React.createContext({})
+
+const { Provider, Consumer } = RenderContext
+
+function test(data) {
+  opportunityState.opportunityDetails = data
+  opportunityState.backgroundList = data.Opportunity.backgrounds
+  opportunityState.skillsList = data.Opportunity.skills
+}
+class Opportunity extends React.PureComponent {
+  static contextType = RenderContext
+  render() {
+      return (
+        <Query query={GET_OPPORTUNITY}>
+          {({ loading, error, data }) => {
+            if (loading) return <p>Loading...</p>;
+            if (error) return (
+                <React.Fragment>
+                    <p>ERROR MEASSAGE : ${error.message}</p>
+                    <p>{`Check your internet conection (or) Please try after sometimes`}</p>
+                </React.Fragment>
+            )
+            if (data) {
+                return (
+                    <Provider value={data}>
+                        {test(data)}
+                        <OpportunityPage />
+                    </Provider>
+                )
+            }
+          }}
+        </Query>
+      )
+  }
 }
 
-export default observer(Opportunity)
+export default Opportunity
+export { RenderContext, Opportunity }

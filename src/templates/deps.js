@@ -102,6 +102,7 @@ function convertDate(date) {
     date = newDate + ' ' + newMonth + ' ' + newYear
     return date
 }
+
 export {
     renderHeadingWithContent,
     headingWithContent,

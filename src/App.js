@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import PostViewer from './PostViewer';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Opportunity, Editopportunity } from './pages'
 import { EditOpportunity } from './templates'
 import './App.css';
 
@@ -10,8 +10,8 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <Router>
-              <Route path="/" exact component={PostViewer} />
-              <Route path="/edit-opportunity" exact component={EditOpportunity} />
+              <Route path="/" exact component={Opportunity} />
+              <Route path="/edit-opportunity" exact component={Editopportunity} />
           </Router>
         </header>
       </div>

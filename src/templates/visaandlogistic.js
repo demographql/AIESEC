@@ -1,5 +1,5 @@
 import React from 'react';
-import { RenderContext } from '../PostViewer'
+import { RenderContext } from '../pages/Opportunity'
 import { renderHeadingWithContent, renderWorkingHours, renderVisaInfo, renderLogistics } from './deps'
 import { Heading } from './styled'
 import { wording } from './fixture'

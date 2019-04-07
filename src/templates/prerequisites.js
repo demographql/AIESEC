@@ -1,5 +1,5 @@
 import React from 'react';
-import { RenderContext } from '../PostViewer'
+import { RenderContext } from '../pages/Opportunity'
 import { renderHeadingWithContent } from './deps'
 import { Heading, SigninWrapper, SigninContainer, SigninText, SigninButton, RequiredWrapper } from './styled'
 import { wording } from './fixture'

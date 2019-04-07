@@ -1,6 +1,6 @@
 import { gql } from 'apollo-boost';
 
-export const GET_OPPORTUNITY = gql`
+const GET_OPPORTUNITY = gql`
   query GetOpportunity {
     Opportunity {
         id
@@ -78,3 +78,49 @@ export const GET_OPPORTUNITY = gql`
     }
   }
 `
+
+const GET_SKILLS = gql`
+  query GetSkills {
+    skills {
+        id
+        name
+        matchingOpportunity	
+    }
+  }
+`
+const GET_BACKGROUNDS = gql`
+  query GetBackgrounds {
+    backgrounds {
+        id
+        name
+        matchingOpportunity	
+    }
+  }
+`
+const UPDATE_OPPORTUNITY = gql`
+  mutation UpdateOpportunity($title: String, $description: String, $role_info: Role_Info, $specifics_info: Specifics_Info, $backgrounds: [Backgrounds], $skills: [Skills]) {
+    updateopportunity(title: $title, description: $description, role_info: $role_info, specifics_info: $specifics_info, backgrounds: $backgrounds, skills: $skills) {
+        title
+        description
+        skills {
+            option
+            level
+            id
+        }
+        backgrounds {
+            option
+            level
+            id
+        }
+        role_info {
+            city
+            selection_process
+        }
+        specifics_info {
+            salary
+        }
+    }
+  }
+`;
+
+export { GET_OPPORTUNITY, GET_SKILLS, GET_BACKGROUNDS, UPDATE_OPPORTUNITY }

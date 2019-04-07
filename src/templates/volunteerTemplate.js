@@ -1,5 +1,5 @@
 import React from 'react';
-import { RenderContext } from '../PostViewer'
+import { RenderContext } from '../pages/Opportunity'
 import { renderHeadingWithContent, convertDate } from './deps'
 import { Image, BorderConatiner, LoginButton } from './styled'
 import { wording } from './fixture'
