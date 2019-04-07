@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react'
 import { SelectDropdown } from '../atoms'
 import { Mutation } from 'react-apollo';
-import { UPDATE_OPPORTUNITY } from '../queries'
+import { UPDATE_OPPORTUNITY } from '../queries/Opportunity.graphql'
 import { PlusIcon, FailureIcon } from '../atoms/Icons'
 import { rules, messages } from './Validation'
 import { isArray } from 'util';
@@ -56,6 +56,7 @@ class EditOpportunities extends React.Component {
                     key: this.state.indexedValue+1,
                     option: background.option || preferredOptions[0].name,
                     level: background.level || levelOptions[0].name,
+                    id: background.id || options[0].id
                 }
                 textState.selectedValue[selectedNode].push(defaultParam)
             }
@@ -76,8 +77,29 @@ class EditOpportunities extends React.Component {
             </React.Fragment>
         )
     }
-    updateOpportunity = ({ serialized }) => {
-        alert(JSON.stringify(serialized, null, 2))
+    updateOpportunity = (data: serialized) => {
+        const { title, description, salary, city} = data.serialized
+        const variables = {
+            input: {
+                opportunity: {
+                    title,
+                    description,
+                    specifics_info: {
+                        salary,
+                    },
+                    role_info: {
+                        city,
+                        selection_process: data.serialized['selection process']
+                    },
+                    backgrounds: textState.selectedValue['backgrounds'],
+                    skills: textState.selectedValue['skills']
+                }
+            }
+        }
+        
+        alert(JSON.stringify(variables))
+        console.log('testtesttest', variables)
+        return variables
     }
     componentWillMount() {
         if(opportunityState.backgroundList.length > 0) {
@@ -87,6 +109,7 @@ class EditOpportunities extends React.Component {
                     key: index,
                     option: item.option || preferredOptions[0].name,
                     level: item.level || levelOptions[0].name,
+                    id: item.id || this.state.backgrounds[0].name,
                 }
                 textState.selectedValue['backgrounds'].push(defaultParam)
             })
@@ -98,6 +121,7 @@ class EditOpportunities extends React.Component {
                     key: index,
                     option: item.option || preferredOptions[0].name,
                     level: item.level || levelOptions[0].name,
+                    id: item.id || this.state.skills[0].name,
                 }
                 textState.selectedValue['skills'].push(defaultParam)
             })
@@ -135,9 +159,12 @@ class EditOpportunities extends React.Component {
             
             return (
                 <Mutation mutation={UPDATE_OPPORTUNITY}>
-                    {updateTodo => (
-                        <StyledForm rules={rules} messages={messages} action={updateTodo({ variables: { id, type: input.value } })}>
+                    {update => (
+                        <StyledForm rules={rules} messages={messages} action={update({ variables: this.updateOpportunity })}>
                             {editableList.map(this.renderForm)}
+                            <Mutation mutation={UPDATE_OPPORTUNITY} variables={{ description, url }}>
+                                {postMutation => <button onClick={this.updateOpportunity}>Submit</button>}
+                            </Mutation>
                             <button>Serialize</button>
                         </StyledForm>
                     )}

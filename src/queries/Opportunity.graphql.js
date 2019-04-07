@@ -98,29 +98,12 @@ const GET_BACKGROUNDS = gql`
   }
 `
 const UPDATE_OPPORTUNITY = gql`
-  mutation UpdateOpportunity($title: String, $description: String, $role_info: Role_Info, $specifics_info: Specifics_Info, $backgrounds: [Backgrounds], $skills: [Skills]) {
-    updateopportunity(title: $title, description: $description, role_info: $role_info, specifics_info: $specifics_info, backgrounds: $backgrounds, skills: $skills) {
-        title
-        description
-        skills {
-            option
-            level
-            id
-        }
-        backgrounds {
-            option
-            level
-            id
-        }
-        role_info {
-            city
-            selection_process
-        }
-        specifics_info {
-            salary
+    mutation UpdateOpportunity($input: UpdateOpportunityDetails!) {
+        UpdateOpportunity(input: $input) {
+            responseCode
+            responseMessage
         }
     }
-  }
 `;
 
 export { GET_OPPORTUNITY, GET_SKILLS, GET_BACKGROUNDS, UPDATE_OPPORTUNITY }
