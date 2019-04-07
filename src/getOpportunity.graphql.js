@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from 'apollo-boost';
 
 export const GET_OPPORTUNITY = gql`
   query GetOpportunity {

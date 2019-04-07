@@ -2,18 +2,8 @@ import { observable, decorate } from 'mobx'
 
 class State {
     opportunityDetails = {}
-    backgroundList = [
-        {
-            id:'',
-            name:''
-        }
-    ]
-    skillsList = [
-        {
-            id:'',
-            name:''
-        }
-    ]
+    backgroundList = []
+    skillsList = []
 }
 
 decorate(State,{

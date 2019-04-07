@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 import { Form } from 'react-advanced-form'
-import { Input } from 'react-advanced-form-addons'
+import { Inputs } from '../atoms'
 
 const HeadingContainer = styled.div`
   ${props => (props.heading === 'sideheading' || props.heading === 'pointheading')&& css`
@@ -136,31 +136,48 @@ const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  label {
-    width: 100%;
-    flex-direction: row;
-    display: flex;
-    padding: 25px 0;
-  }
+  width: 90%;
 `
-const StyledInput = styled(Input)`
+const StyledInput = styled(Inputs)`
   border-right-width: 0;
   border-top-width: 0;
   border-left-width: 0;
   border-color: #a0a0a0;
-  flex: 0 0 70%;
+  flex: 0 0 80%;
   :focus {
     outline: none;
     border-color: #037ef3;
   }
 `
-const InputTitle = styled.div`
-  flex: 0 0 30%;
+const StyledLabel = styled.label`
+  width: 100%;
+  flex-direction: row;
   display: flex;
+  div:not(:first-child) {
+    ${props => !props.domToShow && css`
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+    `};
+  }
+`
+
+const InputTitle = styled.div`
+  flex: 0 0 20%;
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
 `
 const StyledSpan = styled.span`
   flex: 0 0 100%;
   display: flex;
+  align-items: center;
+  div {
+    margin: 1.5rem 0;
+    &:not(:first-child) {
+      padding-left: 20px;
+    }
+  }
   ${StyledInput} {
     flex: 0 0 100%;
   }
@@ -171,12 +188,6 @@ const IconButton = styled.div`
 `
 const InputListWrap = styled.div`
   flex-basis: 100%;
-  span:first-child {
-    padding: 0;
-  }
-  span {
-    padding: 25px 0 0 0;
-  }
 }
 `
 
@@ -197,5 +208,6 @@ export {
   InputTitle,
   StyledSpan,
   InputListWrap,
-  IconButton
+  IconButton,
+  StyledLabel
 }

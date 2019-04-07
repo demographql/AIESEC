@@ -1,5 +1,4 @@
 import React from 'react'
-import {observer} from 'mobx-react'
 import { Input } from 'react-advanced-form-addons'
 
 class Inputs extends React.Component {
@@ -11,12 +10,13 @@ class Inputs extends React.Component {
         this.setState({value: event.nextValue});
       }
     render() {
+        console.log('name', this.props.name)
+        console.log('value', this.state.value)
         return (
-            <Input name={this.props.name} value={this.state.value} type="text" onChange={this.handleChange} />
+            <Input type="text" name={this.props.name} value={this.state.value} onChange={this.handleChange} required={true} pattern="[A-Za-z]{3}" />
         )
     }
 }
-const InputData = observer(Inputs)
 
-export default InputData
-export { InputData }
+export default Inputs
+export { Inputs }

@@ -11,7 +11,6 @@ class SelectDropDown extends React.Component {
             selectedDropdown: this.props.selectedDropdown
         };
     }
-    
     renderoptions = (option) => {
         return <option value={option.name}>{option.name}</option>
     }
@@ -23,6 +22,7 @@ class SelectDropDown extends React.Component {
             const found = textState.selectedValue[selectedNode].find(function (item, index) {
                 return item.key === keyValue
             })
+            console.log('qwerty', textState.selectedValue[selectedNode])
             if(found) {
                 switch(this.state.selectedDropdown) {
                     case 'option':
@@ -41,12 +41,13 @@ class SelectDropDown extends React.Component {
     }
 
     handleChange = (event) => {
-        console.log('test1', this.state)
-        console.log('textState.selectedValue', textState.selectedValue)
+        console.log('aravindtest1', textState.selectedValue['backgrounds'])
         this.setValue(event.nextValue)
         this.setState({value: event.nextValue});
       }
     render() {
+        const index = this.props.index
+        //textState.selectedValue['backgrounds'][index].key = index
         return (
             <Select value={this.state.value} onChange={this.handleChange}>
                 {this.props.options.map(this.renderoptions)}
