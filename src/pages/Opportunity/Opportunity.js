@@ -9,8 +9,10 @@ class Opportunity extends React.Component {
         return (
             <div className={"opportunityWrapper"}>
                 <Link to="/edit-opportunity">Edit Opportunity</Link>
-                <GeneralInfo />
-                <Volunteer />
+                <div>
+                    <GeneralInfo />
+                    <Volunteer />
+                </div>
             </div>
         )
     }

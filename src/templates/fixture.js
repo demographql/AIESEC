@@ -42,13 +42,13 @@ const wording = {
 
 const preferredOptions = [
     {
-      "name": "Preferred"
+      "name": "preferred"
     },
     {
-      "name": "Test"
+      "name": "required"
     },
     {
-      "name": "Test1"
+      "name": "featured"
     }
 ];
 
@@ -64,6 +64,9 @@ const levelOptions = [
     },
     {
       "name": 3
+    },
+    {
+      "name": 4
     }
 ];
 

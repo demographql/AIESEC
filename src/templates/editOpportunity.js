@@ -8,6 +8,7 @@ import { rules, messages } from './Validation'
 import { isArray } from 'util';
 import { textState } from '../atoms/state'
 import { opportunityState } from '../state'
+import client from '../apollo';
 import { StyledForm, StyledInput, InputTitle, StyledSpan, InputListWrap, IconButton, StyledLabel } from './styled'
 import { wording, preferredOptions, levelOptions } from './fixture'
 
@@ -21,7 +22,6 @@ class EditOpportunities extends React.Component {
         };
     }
     renderForm = (dataToEdit) => {
-        console.log('aravind2', dataToEdit)
         const { name, value } = dataToEdit
         const dataValue = (name === wording.backgroundsText)
             ? 'backgrounds'
@@ -53,10 +53,10 @@ class EditOpportunities extends React.Component {
                 this.setState({indexedValue: this.state.indexedValue+1})
                 const defaultParam = {
                     name: (background.name!=='' && background.name) || options[0].name,
-                    key: this.state.indexedValue+1,
+                    key: parseInt(this.state.indexedValue+1),
                     option: background.option || preferredOptions[0].name,
-                    level: background.level || levelOptions[0].name,
-                    id: background.id || options[0].id
+                    level: parseInt(background.level || levelOptions[0].name),
+                    id: parseInt(background.id || options[0].id)
                 }
                 textState.selectedValue[selectedNode].push(defaultParam)
             }
@@ -77,29 +77,36 @@ class EditOpportunities extends React.Component {
             </React.Fragment>
         )
     }
-    updateOpportunity = (data: serialized) => {
+    updateOpportunity = async(data: serialized) => {
         const { title, description, salary, city} = data.serialized
         const variables = {
-            input: {
-                opportunity: {
-                    title,
-                    description,
-                    specifics_info: {
-                        salary,
-                    },
-                    role_info: {
-                        city,
-                        selection_process: data.serialized['selection process']
-                    },
-                    backgrounds: textState.selectedValue['backgrounds'],
-                    skills: textState.selectedValue['skills']
-                }
+            opportunity: {
+                title,
+                description,
+                specifics_info: {
+                    salary,
+                },
+                role_info: {
+                    city,
+                    selection_process: data.serialized['selection process']
+                },
+                backgrounds: textState.selectedValue['backgrounds'],
+                skills: textState.selectedValue['skills']
             }
         }
+
+        alert(JSON.stringify(variables))
+        
+        const response = (await client.mutate({
+            mutation: UPDATE_OPPORTUNITY,
+            variables: {
+              input: variables,
+            },
+          }))
         
         alert(JSON.stringify(variables))
-        console.log('testtesttest', variables)
-        return variables
+        console.log('testresponsetesttest', response)
+        return response
     }
     componentWillMount() {
         if(opportunityState.backgroundList.length > 0) {
@@ -108,10 +115,11 @@ class EditOpportunities extends React.Component {
                     name: (item.name!=='' && item.name) || this.state.backgrounds[0].name,
                     key: index,
                     option: item.option || preferredOptions[0].name,
-                    level: item.level || levelOptions[0].name,
+                    level: parseInt(item.level || levelOptions[0].name),
                     id: item.id || this.state.backgrounds[0].name,
                 }
                 textState.selectedValue['backgrounds'].push(defaultParam)
+                console.log("textState.selectedValue['backgrounds']", textState.selectedValue['backgrounds'])
             })
         }
         if(opportunityState.skillsList.length > 0) {
@@ -120,7 +128,7 @@ class EditOpportunities extends React.Component {
                     name: (item.name!=='' && item.name) || this.state.skills[0].name,
                     key: index,
                     option: item.option || preferredOptions[0].name,
-                    level: item.level || levelOptions[0].name,
+                    level: parseInt(item.level || levelOptions[0].name),
                     id: item.id || this.state.skills[0].name,
                 }
                 textState.selectedValue['skills'].push(defaultParam)
@@ -158,17 +166,10 @@ class EditOpportunities extends React.Component {
             ]
             
             return (
-                <Mutation mutation={UPDATE_OPPORTUNITY}>
-                    {update => (
-                        <StyledForm rules={rules} messages={messages} action={update({ variables: this.updateOpportunity })}>
-                            {editableList.map(this.renderForm)}
-                            <Mutation mutation={UPDATE_OPPORTUNITY} variables={{ description, url }}>
-                                {postMutation => <button onClick={this.updateOpportunity}>Submit</button>}
-                            </Mutation>
-                            <button>Serialize</button>
-                        </StyledForm>
-                    )}
-                </Mutation>
+                <StyledForm rules={rules} messages={messages} action={this.updateOpportunity}>
+                    {editableList.map(this.renderForm)}
+                    <button>Submit</button>
+                </StyledForm>
             )
         }
     }

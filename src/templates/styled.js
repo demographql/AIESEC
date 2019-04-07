@@ -178,6 +178,9 @@ const StyledSpan = styled.span`
       padding-left: 20px;
     }
   }
+  select, option {
+    text-transform: capitalize;
+  }
   ${StyledInput} {
     flex: 0 0 100%;
   }

@@ -29,7 +29,7 @@ class SelectDropDown extends React.Component {
                         textState.selectedValue[selectedNode][found.key].option = value
                         break;
                     case 'level':
-                        textState.selectedValue[selectedNode][found.key].level = value
+                        textState.selectedValue[selectedNode][found.key].level = parseInt(value)
                         break;
                     default:
                         textState.selectedValue[selectedNode][found.key].name = value

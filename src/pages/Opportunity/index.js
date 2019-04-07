@@ -8,7 +8,7 @@ const RenderContext = React.createContext({})
 
 const { Provider, Consumer } = RenderContext
 
-function test(data) {
+function getOpportunityData(data) {
   opportunityState.opportunityDetails = data
   opportunityState.backgroundList = data.Opportunity.backgrounds
   opportunityState.skillsList = data.Opportunity.skills
@@ -29,7 +29,7 @@ class Opportunity extends React.PureComponent {
             if (data) {
                 return (
                     <Provider value={data}>
-                        {test(data)}
+                        {getOpportunityData(data)}
                         <OpportunityPage />
                     </Provider>
                 )
