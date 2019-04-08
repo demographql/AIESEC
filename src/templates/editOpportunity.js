@@ -15,8 +15,7 @@ import {
     StyledSpan, 
     InputListWrap, 
     IconButton, 
-    StyledLabel, 
-    StyledButton,
+    StyledLabel,
     StyledLink,
     GooglePlaceWrap
 } from './styled'
@@ -206,7 +205,7 @@ class EditOpportunities extends React.Component {
             return (
                 <StyledForm rules={rules} messages={messages} action={this.updateOpportunity}>
                     {editableList.map(this.renderForm)}
-                    <StyledButton>Submit</StyledButton>
+                    <button className={`submit-button`}>Submit</button>
                     <StyledLink to="/">Home</StyledLink>
                 </StyledForm>
             )
