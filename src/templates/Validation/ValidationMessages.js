@@ -16,9 +16,5 @@ export const messages = {
             missing: 'Please provide valid Salary',
             invalid: 'Salary should be min 3 digit & max 100 digit, No specail character/Numbers',
         },
-        city: {
-            missing: 'Please provide valid City',
-            invalid: 'City is invalid',
-        },
     },
   }

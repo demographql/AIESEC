@@ -37,7 +37,9 @@ const wording = {
     skillsText: 'skills',
     selectionProcessText: 'selection process',
     salaryTextHeading: 'salary',
-    cityText: 'city'
+    cityText: 'city',
+    earliestStartDate: 'earliest start date',
+    latestEndDate: 'latest end date'
 }
 
 const preferredOptions = [

@@ -1,7 +1,7 @@
 import React from 'react';
 import { RenderContext } from '../pages/Opportunity'
 import { renderHeadingWithContent, convertDate } from './deps'
-import { Image, BorderConatiner, LoginButton } from './styled'
+import { Image, BorderConatiner, LoginButton, StyledLink } from './styled'
 import { wording } from './fixture'
 
 class VolunteerTemplate extends React.Component {
@@ -24,7 +24,7 @@ class VolunteerTemplate extends React.Component {
                     {specifics_info && specifics_info.salary && renderHeadingWithContent(specifics_info.salary, salaryText, `smallheading`)}
                     {positions && renderHeadingWithContent(positions, positionText, `smallheading`)}
                 </BorderConatiner>
-                <LoginButton>{wording.loginButtonText}</LoginButton>
+                <LoginButton><StyledLink to="/edit-opportunity">Edit Opportunity</StyledLink></LoginButton>
             </React.Fragment>
         )
     }

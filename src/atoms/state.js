@@ -24,7 +24,7 @@ decorate(State,{
     selectedValue: observable
 })
 
-const textState = new State()
+const inputState = new State()
 
 export default State
-export { State, textState }
+export { State, inputState }

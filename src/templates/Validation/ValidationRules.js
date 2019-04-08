@@ -16,9 +16,5 @@ export const rules = {
         const matchCase = value.match(/^([0-9]{3,10})$/)
         return matchCase && matchCase.length > 0 ? true : false
       },
-      city: ({ value }) => {
-        const matchCase = value.match(/^([a-zA-Z\s]{3,50})$/)
-        return matchCase && matchCase.length > 0 ? true : false
-      }
     },
 }

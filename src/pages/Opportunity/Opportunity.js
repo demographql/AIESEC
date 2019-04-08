@@ -1,15 +1,15 @@
 import React from 'react';
-import { Link } from "react-router-dom"
 import {observer} from 'mobx-react'
 import GeneralInfo from './GeneralInfo'
 import Volunteer from './Volunteer'
+import { opportunityState } from '../../state'
 
 class Opportunity extends React.Component {
     render() {
         return (
             <div className={"opportunityWrapper"}>
-                <Link to="/edit-opportunity">Edit Opportunity</Link>
-                <div>
+                <h1>{opportunityState.opportunityDetails.Opportunity.title}</h1>
+                <div className={"opportunityCont"}>
                     <GeneralInfo />
                     <Volunteer />
                 </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 import {observer} from 'mobx-react'
-import {textState} from './state'
+import {inputState} from './state'
 import { Select } from 'react-advanced-form-addons';
 
 class SelectDropDown extends React.Component {
@@ -18,21 +18,20 @@ class SelectDropDown extends React.Component {
     setValue = (value) => {
         const keyValue = this.props.index
         const selectedNode = this.props.isBackground ? 'backgrounds' : 'skills'
-        if(textState.selectedValue[selectedNode].length > 0) {
-            const found = textState.selectedValue[selectedNode].find(function (item, index) {
+        if(inputState.selectedValue[selectedNode].length > 0) {
+            const found = inputState.selectedValue[selectedNode].find(function (item, index) {
                 return item.key === keyValue
             })
-            console.log('qwerty', textState.selectedValue[selectedNode])
             if(found) {
                 switch(this.state.selectedDropdown) {
                     case 'option':
-                        textState.selectedValue[selectedNode][found.key].option = value
+                        inputState.selectedValue[selectedNode][found.key].option = value
                         break;
                     case 'level':
-                        textState.selectedValue[selectedNode][found.key].level = parseInt(value)
+                        inputState.selectedValue[selectedNode][found.key].level = parseInt(value)
                         break;
                     default:
-                        textState.selectedValue[selectedNode][found.key].name = value
+                        inputState.selectedValue[selectedNode][found.key].name = value
                         break;
                 }
                 
@@ -41,13 +40,11 @@ class SelectDropDown extends React.Component {
     }
 
     handleChange = (event) => {
-        console.log('aravindtest1', textState.selectedValue['backgrounds'])
         this.setValue(event.nextValue)
         this.setState({value: event.nextValue});
       }
     render() {
         const index = this.props.index
-        //textState.selectedValue['backgrounds'][index].key = index
         return (
             <Select value={this.state.value} onChange={this.handleChange}>
                 {this.props.options.map(this.renderoptions)}

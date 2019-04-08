@@ -1,15 +1,25 @@
 import React from 'react';
 import { observer } from 'mobx-react'
-import { SelectDropdown } from '../atoms'
-import { Mutation } from 'react-apollo';
+import { SelectDropdown, GoogleSuggest, Datepicker } from '../atoms'
 import { UPDATE_OPPORTUNITY } from '../queries/Opportunity.graphql'
 import { PlusIcon, FailureIcon } from '../atoms/Icons'
 import { rules, messages } from './Validation'
 import { isArray } from 'util';
-import { textState } from '../atoms/state'
+import { inputState } from '../atoms/state'
 import { opportunityState } from '../state'
 import client from '../apollo';
-import { StyledForm, StyledInput, InputTitle, StyledSpan, InputListWrap, IconButton, StyledLabel } from './styled'
+import { 
+    StyledForm,
+    StyledInput, 
+    InputTitle, 
+    StyledSpan, 
+    InputListWrap, 
+    IconButton, 
+    StyledLabel, 
+    StyledButton,
+    StyledLink,
+    GooglePlaceWrap
+} from './styled'
 import { wording, preferredOptions, levelOptions } from './fixture'
 
 class EditOpportunities extends React.Component {
@@ -26,11 +36,24 @@ class EditOpportunities extends React.Component {
         const dataValue = (name === wording.backgroundsText)
             ? 'backgrounds'
             : 'skills'
+        const getInputDom = () => {
+            if(name === wording.cityText) {
+                return <GooglePlaceWrap><GoogleSuggest value={value?value:''} /></GooglePlaceWrap>
+            }
+            else if(isArray(value)) {
+                return <InputListWrap>{this.renderInputList(value, dataValue)}</InputListWrap>
+            }
+            else if(name === wording.earliestStartDate || name === wording.latestEndDate) {
+                return <Datepicker value={value} />
+            }
+            else {
+                return <StyledInput name={name} value={value?value:''} type="text" required />
+            }
+        }
         return (
             <StyledLabel domToShow={isArray(value)}>
                 <InputTitle>{name}:</InputTitle>
-                {!isArray(value) && <StyledInput name={name} value={value?value:''} type="text" required />}
-                {isArray(value) && <InputListWrap>{this.renderInputList(value, dataValue)}</InputListWrap>}
+                {getInputDom()}
             </StyledLabel>
         )
     }
@@ -48,17 +71,15 @@ class EditOpportunities extends React.Component {
         }
 
         const inputList = (background, index) => {
-            console.log('aravind1', background)
             const renderInput = () => {
                 this.setState({indexedValue: this.state.indexedValue+1})
                 const defaultParam = {
                     name: (background.name!=='' && background.name) || options[0].name,
-                    key: parseInt(this.state.indexedValue+1),
+                    key: this.state.indexedValue+1,
                     option: background.option || preferredOptions[0].name,
-                    level: parseInt(background.level || levelOptions[0].name),
-                    id: parseInt(background.id || options[0].id)
+                    level: background.level || levelOptions[0].name
                 }
-                textState.selectedValue[selectedNode].push(defaultParam)
+                inputState.selectedValue[selectedNode].push(defaultParam)
             }
             return (
                 <StyledSpan>
@@ -77,6 +98,22 @@ class EditOpportunities extends React.Component {
             </React.Fragment>
         )
     }
+    renderBackgroundSkills = (value) => {
+        const getData = (data) => {
+            const options = value === 'backgrounds' ? this.state.backgrounds : this.state.skills
+            const nodevalue = options.find(function (item) {
+                return data.name === item.name
+            })
+            const { name, option, level } = data
+            return {
+                name,
+                id: nodevalue.id,
+                option,
+                level
+            }
+        }
+        return inputState.selectedValue[value].map(getData)
+    }
     updateOpportunity = async(data: serialized) => {
         const { title, description, salary, city} = data.serialized
         const variables = {
@@ -90,22 +127,23 @@ class EditOpportunities extends React.Component {
                     city,
                     selection_process: data.serialized['selection process']
                 },
-                backgrounds: textState.selectedValue['backgrounds'],
-                skills: textState.selectedValue['skills']
+                backgrounds: this.renderBackgroundSkills('backgrounds'),
+                skills: this.renderBackgroundSkills('skills'),
             }
         }
 
-        alert(JSON.stringify(variables))
-        
         const response = (await client.mutate({
             mutation: UPDATE_OPPORTUNITY,
             variables: {
               input: variables,
             },
-          }))
-        
-        alert(JSON.stringify(variables))
-        console.log('testresponsetesttest', response)
+        }))
+        if(response && response.data && response.data.UpdateOpportunity && response.data.UpdateOpportunity.id) {
+            alert('Updated Sucessfully')
+        }
+        else {
+            alert('Something went wrong')
+        }
         return response
     }
     componentWillMount() {
@@ -115,11 +153,9 @@ class EditOpportunities extends React.Component {
                     name: (item.name!=='' && item.name) || this.state.backgrounds[0].name,
                     key: index,
                     option: item.option || preferredOptions[0].name,
-                    level: parseInt(item.level || levelOptions[0].name),
-                    id: item.id || this.state.backgrounds[0].name,
+                    level: parseInt(item.level || levelOptions[0].name)
                 }
-                textState.selectedValue['backgrounds'].push(defaultParam)
-                console.log("textState.selectedValue['backgrounds']", textState.selectedValue['backgrounds'])
+                inputState.selectedValue['backgrounds'].push(defaultParam)
             })
         }
         if(opportunityState.skillsList.length > 0) {
@@ -128,15 +164,13 @@ class EditOpportunities extends React.Component {
                     name: (item.name!=='' && item.name) || this.state.skills[0].name,
                     key: index,
                     option: item.option || preferredOptions[0].name,
-                    level: parseInt(item.level || levelOptions[0].name),
-                    id: item.id || this.state.skills[0].name,
+                    level: parseInt(item.level || levelOptions[0].name)
                 }
-                textState.selectedValue['skills'].push(defaultParam)
+                inputState.selectedValue['skills'].push(defaultParam)
             })
         }
     }
     componentDidMount() {
-        console.log('this.props',this.props.context)
         const { skills, backgrounds} = this.props.context
         this.setState({
             skills: skills,
@@ -153,22 +187,27 @@ class EditOpportunities extends React.Component {
                 skillsText,
                 selectionProcessText,
                 salaryTextHeading,
-                cityText
+                cityText,
+                earliestStartDate,
+                latestEndDate,
             } = wording
             const editableList = [
                 {name:titleText, value:(data && data.title) || ''},
                 {name:descriptionText, value:(data && data.description) || ''},
+                {name:earliestStartDate, value:(data && data.earliestStartDate) || ''},
+                {name:latestEndDate, value:(data && data.latestEndDate) || ''},
                 {name:selectionProcessText, value:(data && data.role_info && data.role_info.selectionProcess) || ''},
                 {name:salaryTextHeading, value:(data && data.specifics_info && data.specifics_info.salary) || ''},
                 {name:cityText, value:(data && data.role_info && data.role_info.city) || ''},
-                {name:backgroundsText, value:textState.selectedValue['backgrounds']},
-                {name:skillsText, value:textState.selectedValue['skills']},
+                {name:backgroundsText, value:inputState.selectedValue['backgrounds']},
+                {name:skillsText, value:inputState.selectedValue['skills']},
             ]
             
             return (
                 <StyledForm rules={rules} messages={messages} action={this.updateOpportunity}>
                     {editableList.map(this.renderForm)}
-                    <button>Submit</button>
+                    <StyledButton>Submit</StyledButton>
+                    <StyledLink to="/">Home</StyledLink>
                 </StyledForm>
             )
         }

@@ -10,8 +10,6 @@ class Inputs extends React.Component {
         this.setState({value: event.nextValue});
       }
     render() {
-        console.log('name', this.props.name)
-        console.log('value', this.state.value)
         return (
             <Input type="text" name={this.props.name} value={this.state.value} onChange={this.handleChange} required={true} pattern="[A-Za-z]{3}" />
         )

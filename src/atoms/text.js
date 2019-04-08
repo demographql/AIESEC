@@ -1,12 +1,12 @@
 import React from 'react'
-import { textState } from './state'
+import { inputState } from './state'
 import {observer} from 'mobx-react'
 
 class Texts extends React.Component {
 
     render() {
         const handleClick = () => {
-            textState.handleOnClick(this.props.text)
+            inputState.handleOnClick(this.props.text)
         }
         return (
             <div className={this.props.isActive ? "general-nav-item active": "general-nav-item"} onClick={handleClick}>

@@ -3,7 +3,7 @@ import { RenderContext } from '../pages/Opportunity'
 import {
     renderHeadingWithContent
 } from './deps'
-import { Heading } from './styled'
+import { Heading, OverviewWrap } from './styled'
 import { wording } from './fixture'
 
 class Overview extends React.PureComponent {
@@ -15,13 +15,13 @@ class Overview extends React.PureComponent {
         const content = sdg_info && sdg_info.sdgTarget && sdg_info.sdgTarget.description
         const activities = role_info && role_info.activities && role_info.activities.length>0
         return (
-            <React.Fragment>
+            <OverviewWrap>
                 <Heading text={wording.overviewText} heading={`mainheading`} />
                 <Heading text={wording.overviewHeading} heading={`subheading`} />
                 {content && renderHeadingWithContent(content, contentHeading, `subheading`)}
                 {description && renderHeadingWithContent(description, descriptionHeading, `subheading`)}
                 {activities && renderHeadingWithContent(role_info.activities, activitiesHeading, `subheading`)}
-            </React.Fragment>
+            </OverviewWrap>
         )
     }
     render() {

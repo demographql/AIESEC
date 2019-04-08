@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components'
 import { Form } from 'react-advanced-form'
 import { Inputs } from '../atoms'
+import { Link } from "react-router-dom"
 
 const HeadingContainer = styled.div`
   ${props => (props.heading === 'sideheading' || props.heading === 'pointheading')&& css`
@@ -120,22 +121,29 @@ const RequiredWrapper = styled.div`
 const Image = styled.img`
     width: 220px;
     height: 70px;
-    margin: 0 auto 20px;
+    margin-top: 20px;
 `
 const BorderConatiner = styled.div`
   display: flex;
+  padding: 20px 0;
   justify-content: space-between;
   border-bottom: 1px solid #cbcbcb;
   ul {
     list-style-type: none;
   }
 `
-const LoginButton = styled.button`
+const LoginButton = styled.div`
+  padding: 20px;
+  margin: 25px;
+  border-radius: 2px;
+  background-color: #037ef3;
+  color: #fff;
+  display: inline-block;
 `
 const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   width: 90%;
 `
 const StyledInput = styled(Inputs)`
@@ -153,12 +161,15 @@ const StyledLabel = styled.label`
   width: 100%;
   flex-direction: row;
   display: flex;
-  div:not(:first-child) {
+  ${StyledInput} {
     ${props => !props.domToShow && css`
       display: flex;
       align-items: flex-start;
       flex-direction: column;
     `};
+  }
+  select {
+    width: 237px;
   }
 `
 
@@ -193,7 +204,26 @@ const InputListWrap = styled.div`
   flex-basis: 100%;
 }
 `
-
+const StyledLink = styled(Link)`
+  color: white;
+  background-color: #037ef3;
+  color: #fff;
+  text-decoration: none;
+  padding: 20px;
+  margin: 25px;
+  border-radius: 2px;
+  width: 200px;
+`
+const OverviewWrap = styled.div`
+  padding-top: 50px;
+`
+const StyledButton = styled(LoginButton)`
+  margin: 0px;
+  width: 200px;
+`
+const GooglePlaceWrap = styled.div`
+  margin: 1.5rem 0;
+`
 export {
   Heading,
   SigninWrapper,
@@ -212,5 +242,9 @@ export {
   StyledSpan,
   InputListWrap,
   IconButton,
-  StyledLabel
+  StyledLabel,
+  StyledLink,
+  OverviewWrap,
+  StyledButton,
+  GooglePlaceWrap
 }
